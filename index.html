@@ -1,0 +1,70 @@
+<!doctype html><html><head>
+  <meta charset=utf8>
+  <title>la teva vida en setmanes</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <style>
+    h1{
+      margin:0;
+    }
+    table{
+      border-collapse:collapse;
+    }
+    td{padding:0}
+    td.setmana{
+      width:20px;
+    }
+    td.setmana[viscuda=true]{
+      background:#aaa;
+    }
+  </style>
+</head>
+<h1>La teva vida en setmanes</h1>
+
+<div id=app>
+  <div>
+    Data de naixement: <input type=date v-model="data_naixement">
+    &nbsp;
+    <span v-if="get_setmanes">{{get_setmanes}} setmanes viscudes</span>
+  </div>
+
+  <table border=1>
+    <tr>
+      <th>edat
+      <th colspan=52>setmana
+    </tr>
+    <tr v-for="i in (anys+1)">
+      <td style="text-align:center;font-size:smaller">{{i-1}}</td>
+      <td
+        v-for="j in 52"
+        class=setmana
+        :viscuda="(i-1)*(365.25/7)+j<=get_setmanes"
+      ></td>
+    </tr>
+  </table>
+</div>
+
+<script>
+  let data_naixement = (function(){
+    let usp = new URLSearchParams(window.location.search);
+    return usp.get("naixement");
+  })();
+
+  let app=Vue.createApp({
+    data(){return{
+      anys:90,
+      data_naixement:data_naixement||"",
+    }},
+    
+    computed:{
+      get_setmanes(){
+        if(!this.data_naixement) return 0;
+
+        let avui = new Date();
+        let ahir = new Date(this.data_naixement);
+        let ms_elapsed = avui.getTime()-ahir.getTime();
+        let setmanes_elapsed = ms_elapsed/1000/60/60/24/7;
+        return Math.floor(setmanes_elapsed);
+      }
+    },
+  }).mount("#app");
+</script>
