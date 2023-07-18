@@ -25,6 +25,10 @@
     Data de naixement: <input type=date v-model="data_naixement">
     &nbsp;
     <span v-if="get_setmanes">{{get_setmanes}} setmanes viscudes</span>
+    <code v-if="get_setmanes">
+      &nbsp; permalink:
+      <a :href="get_permalink">{{get_permalink}}</a>
+    </code>
   </div>
 
   <table border=1>
@@ -64,7 +68,15 @@
         let ms_elapsed = avui.getTime()-ahir.getTime();
         let setmanes_elapsed = ms_elapsed/1000/60/60/24/7;
         return Math.floor(setmanes_elapsed);
-      }
+      },
+
+      get_permalink(){
+        let p = window.location.protocol;
+        let h = window.location.host;
+        let pn = window.location.pathname;
+        let n = this.data_naixement;
+        return `${p}//${h}${pn}?naixement=${n}`;
+      },
     },
   }).mount("#app");
 </script>
