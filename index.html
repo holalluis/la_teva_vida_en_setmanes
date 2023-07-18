@@ -19,18 +19,15 @@
   </style>
 </head>
 <h1>La teva vida en setmanes</h1>
-
 <div id=app>
   <div>
-    Data de naixement: <input type=date v-model="data_naixement">
-    &nbsp;
+    Data de naixement: <input type=date v-model="data_naixement"> &nbsp;
     <span v-if="get_setmanes">{{get_setmanes}} setmanes viscudes</span>
     <code v-if="get_setmanes">
       &nbsp; permalink:
       <a :href="get_permalink">{{get_permalink}}</a>
     </code>
   </div>
-
   <table border=1>
     <tr>
       <th>edat
@@ -46,7 +43,6 @@
     </tr>
   </table>
 </div>
-
 <script>
   let data_naixement = (function(){
     let usp = new URLSearchParams(window.location.search);
@@ -62,7 +58,6 @@
     computed:{
       get_setmanes(){
         if(!this.data_naixement) return 0;
-
         let avui = new Date();
         let ahir = new Date(this.data_naixement);
         let ms_elapsed = avui.getTime()-ahir.getTime();
